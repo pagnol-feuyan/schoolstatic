@@ -3,15 +3,12 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo "Installing dependencies..."
-      - npm install  # Si vous utilisez npm, sinon adaptez selon votre projet
+      - echo "Installation des dépendances"
   build:
     commands:
-      - echo "Building the site..."
-      - npm run build  # Adaptez cette commande selon votre projet
-  post_build:
-    commands:
-      - echo "Uploading to S3..."
-      - aws s3 sync ./dist s3://votre-bucket-s3 --delete  # Sync le dossier de build avec S3
-      - echo "Invalidating CloudFront cache..."
-      - aws cloudfront create-invalidation --distribution-id VOTRE_ID_CLOUDFRONT --paths "/*"
+      - echo "Synchronisation avec S3"
+      - aws s3 sync . s3://cicd.pagnolfeuyan.com --delete
+artifacts:
+  files:
+    - '**/*'
+
